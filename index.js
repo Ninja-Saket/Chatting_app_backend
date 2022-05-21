@@ -1,15 +1,9 @@
 const express = require("express");
 const config = require("./config/app");
+const router = require("./router");
+
 const app = express();
-
-app.get("/home", (req, res) => {
-  return res.send("Home Screen Now!");
-});
-
-app.get("/login", (req, res) => {
-  return res.send("Login Screen Works Now!");
-});
-
+app.use(router);
 const port = config.appPort;
 
 app.listen(port, () => {
