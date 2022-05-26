@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(router);
 app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/uploads"));
 const port = config.appPort;
 
 app.listen(port, () => {
