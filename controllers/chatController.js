@@ -95,7 +95,7 @@ exports.create = async (req, res) => {
     return res.json(newChat);
   } catch (error) {
     await t.rollback();
-    return res.status(500).json({ status: "Error", message: e.message });
+    return res.status(500).json({ status: "Error", message: error.message });
   }
 };
 
@@ -127,4 +127,20 @@ exports.messages = async (req, res) => {
   };
 
   return res.json(result);
+};
+
+exports.deleteChat = async (req, res) => {
+  try {
+    await Chat.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    return res.json({
+      status: "Success",
+      message: "chat deleted successfully",
+    });
+  } catch (error) {
+    return res.status(500).json({ status: "Error", message: error.message });
+  }
 };
