@@ -29,7 +29,6 @@ exports.login = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-  return res.send([email, password]);
 };
 
 exports.register = async (req, res) => {
