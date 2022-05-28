@@ -4,6 +4,7 @@ const Chat = models.Chat;
 const ChatUser = models.ChatUser;
 const Message = models.Message;
 const { Op } = require("sequelize");
+const { sequelize } = require("../models");
 
 exports.index = async (req, res) => {
   const user = await User.findOne({
