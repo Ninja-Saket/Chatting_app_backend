@@ -1,7 +1,7 @@
 const socketIo = require("socket.io");
 const cors = require("cors");
 const { sequelize } = require("../models");
-
+const Message = require("../models").Message;
 const users = new Map();
 const userSockets = new Map();
 
@@ -74,6 +74,36 @@ const SocketServer = (server) => {
           users.delete(user.id);
         }
       }
+    });
+    socket.on("message", async (message) => {
+      let sockets = [];
+      if (users.has(message.fromUser.id)) {
+        sockets = users.get(message.fromUser.id).sockets;
+      }
+      message.toUserId.forEach((id) => {
+        if (users.has(id)) {
+          sockets = [...sockets, ...users.get(id).sockets];
+        }
+      });
+      try {
+        const msg = {
+          type: message.type,
+          fromUserId: message.fromUser.id,
+          chatId: message.chatId,
+          message: message.message,
+        };
+
+        await Message.create(msg);
+
+        message.User = message.fromUser;
+        message.fromUserId = message.fromUser.id;
+
+        delete message.fromUser;
+
+        sockets.forEach((socket) => {
+          io.to(socket).emit("received", message);
+        });
+      } catch (error) {}
     });
   });
 };
