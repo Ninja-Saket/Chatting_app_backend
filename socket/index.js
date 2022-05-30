@@ -108,6 +108,15 @@ const SocketServer = (server) => {
         });
       } catch (error) {}
     });
+    socket.on("typing", (message) => {
+      message.toUserId.forEach((id) => {
+        if (users.has(id)) {
+          users.get(id).sockets.forEach((socket) => {
+            io.to(socket).emit("typing", message);
+          });
+        }
+      });
+    });
   });
 };
 
