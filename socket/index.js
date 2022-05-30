@@ -98,6 +98,8 @@ const SocketServer = (server) => {
         message.User = message.fromUser;
         message.fromUserId = message.fromUser.id;
         message.id = savedMessage.id;
+        message.message = savedMessage.message;
+        console.log(message);
 
         delete message.fromUser;
 

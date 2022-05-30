@@ -1,6 +1,7 @@
 "use strict";
 const config = require("../config/app");
 const { Model } = require("sequelize");
+const e = require("express");
 module.exports = (sequelize, DataTypes) => {
   class Message extends Model {
     /**
