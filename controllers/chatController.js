@@ -199,6 +199,8 @@ exports.addUserToGroup = async (req, res) => {
       ],
     });
 
+    chat.Messages.reverse();
+
     //check if already in the group
     chat.Users.forEach((user) => {
       if (user.id === userId) {
@@ -218,6 +220,8 @@ exports.addUserToGroup = async (req, res) => {
       chat.type = "group";
       chat.save();
     }
+
+    // console.log(chat, newChatter, "yooo");
 
     return res.json({ chat, newChatter });
   } catch (e) {

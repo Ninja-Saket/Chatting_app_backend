@@ -138,7 +138,7 @@ const SocketServer = (server) => {
       } catch (err) {}
     });
 
-    socket.on("add-user-to-group", (chat, newChatter) => {
+    socket.on("add-user-to-group", ({ chat, newChatter }) => {
       if (users.has(newChatter.id)) {
         newChatter.status = "online";
       }
