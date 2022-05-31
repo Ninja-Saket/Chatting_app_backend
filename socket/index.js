@@ -170,6 +170,23 @@ const SocketServer = (server) => {
         });
       }
     });
+
+    socket.on("leave-current-chat", (data) => {
+      const { chatId, userId, currentUserId, notifyUsers } = data;
+      notifyUsers.forEach((id) => {
+        if (users.has(id)) {
+          users.get(id).sockets.forEach((socket) => {
+            try {
+              io.to(socket).emit("remove-user-from-chat", {
+                chatId,
+                userId,
+                currentUserId,
+              });
+            } catch (e) {}
+          });
+        }
+      });
+    });
   });
 };
 
