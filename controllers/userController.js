@@ -28,7 +28,7 @@ exports.update = async (req, res) => {
 
 exports.search = async (req, res) => {
   try {
-    const user = await User.findAll({
+    const users = await User.findAll({
       where: {
         [sequelize.Op.or]: {
           namesConcated: sequelize.where(
@@ -52,7 +52,9 @@ exports.search = async (req, res) => {
       },
       limit: 10,
     });
+
+    return res.json(users);
   } catch (err) {
-    return res.status(500).json({ error: e.message });
+    return res.status(500).json({ error: err.message });
   }
 };
