@@ -10,8 +10,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(router);
-app.use(express.static(__dirname + "/public"));
-app.use(express.static(__dirname + "/uploads"));
+
+process.env.PWD = process.cwd();
+app.use(express.static(process.env.PWD + "/public"));
+app.use(express.static(process.env.PWD + "/uploads"));
+// app.use(express.static(__dirname + "/public"));
+// app.use(express.static(__dirname + "/uploads"));
 
 const port = config.appPort;
 const server = http.createServer(app);
