@@ -25,7 +25,6 @@ const SocketServer = (server) => {
       const onlineFriends = [];
 
       const chatters = await getChatters(user.id); //query
-      console.log(chatters);
 
       // Notify his friends that user is online
       for (let i = 0; i < chatters.length; i++) {
@@ -99,7 +98,6 @@ const SocketServer = (server) => {
         message.fromUserId = message.fromUser.id;
         message.id = savedMessage.id;
         message.message = savedMessage.message;
-        console.log(message);
 
         delete message.fromUser;
 

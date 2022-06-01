@@ -137,7 +137,6 @@ exports.messages = async (req, res) => {
   const page = req.query.page || 1;
   const offset = page > 1 ? page * limit : 0;
 
-  console.log(req.query);
   const messages = await Message.findAndCountAll({
     where: {
       chatId: req.query.id,
@@ -222,8 +221,6 @@ exports.addUserToGroup = async (req, res) => {
     }
 
     // console.log(chat, newChatter, "yooo");
-    console.log(chat);
-
     return res.json({ chat, newChatter });
   } catch (e) {
     return res.status(500).json({ status: "Error", message: e.message });

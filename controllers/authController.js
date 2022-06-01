@@ -24,7 +24,6 @@ exports.login = async (req, res) => {
     // Generate Json web token for the user
     const userWithToken = generateToken(user.get({ raw: true }));
     userWithToken.user.avatar = user.avatar;
-    console.log(userWithToken);
     return res.send(userWithToken);
   } catch (error) {
     return res.status(500).json({ message: error.message });
