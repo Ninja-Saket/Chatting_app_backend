@@ -12,12 +12,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(router);
 
-process.env.PWD = process.cwd();
-app.use(express.static(path.join(process.env.PWD, "public")));
-app.use(express.static(path.join(process.env.PWD, "uploads")));
+// process.env.PWD = process.cwd();
+// app.use(express.static(path.join(process.env.PWD, "public")));
+// app.use(express.static(path.join(process.env.PWD, "uploads")));
 
-// app.use(express.static(__dirname + "/public"));
-// app.use(express.static(__dirname + "/uploads"));
+app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/uploads"));
 
 const port = config.appPort;
 const server = http.createServer(app);
