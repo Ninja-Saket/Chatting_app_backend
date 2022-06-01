@@ -222,6 +222,7 @@ exports.addUserToGroup = async (req, res) => {
     }
 
     // console.log(chat, newChatter, "yooo");
+    console.log(chat);
 
     return res.json({ chat, newChatter });
   } catch (e) {
@@ -229,18 +230,26 @@ exports.addUserToGroup = async (req, res) => {
   }
 };
 exports.deleteChat = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    await Chat.destroy({
+    const chat = await Chat.findOne({
       where: {
-        id: req.params.id,
+        id,
       },
+      include: [
+        {
+          model: User,
+        },
+      ],
     });
-    return res.json({
-      status: "Success",
-      message: "chat deleted successfully",
-    });
-  } catch (error) {
-    return res.status(500).json({ status: "Error", message: error.message });
+
+    const notifyUsers = chat.Users.map((user) => user.id);
+    await chat.destroy();
+
+    return res.json({ chatId: id, notifyUsers });
+  } catch (e) {
+    return res.status(500).json({ status: "Error", message: e.message });
   }
 };
 
@@ -286,6 +295,7 @@ exports.leaveCurrentChat = async (req, res) => {
     const notifyUsers = chat.Users.map((user) => user.id);
 
     return res.json({
+      chat,
       chatId: chat.id,
       userId: req.user.id,
       currentUserId: req.user.id,
